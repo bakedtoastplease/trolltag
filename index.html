@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авто-звук</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #282c34;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #3a3f4b;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔊 Воспроизведение звука</h1>
+        <p id="status">Ожидание...</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sounds = {
+                "sound1": "https://example.com/sound1.mp3",
+                "sound2": "https://example.com/sound2.mp3"
+            };
+
+            let path = window.location.pathname.replace("/", "");
+
+            if (sounds[path]) {
+                let audio = new Audio(sounds[path]);
+                let status = document.getElementById("status");
+
+                audio.play().then(() => {
+                    status.innerHTML = "🎵 Воспроизводится: " + path;
+                }).catch(error => {
+                    status.innerHTML = "⚠️ Нажмите экран для воспроизведения";
+                    document.body.addEventListener("click", () => audio.play(), { once: true });
+                    console.log("Автовоспроизведение заблокировано:", error);
+                });
+            } else {
+                document.getElementById("status").innerHTML = "❌ Звук не найден!";
+            }
+        });
+    </script>
+
+</body>
+</html>
